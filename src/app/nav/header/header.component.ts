@@ -7,7 +7,7 @@ import { nav } from '../nav';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  @Output() sidenavToggled = new EventEmitter();
+  @Output() sidenavToggled = new EventEmitter<void>();
   navLinks = nav;
   toggleMenu() {
     this.sidenavToggled.emit();

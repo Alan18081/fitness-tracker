@@ -7,7 +7,7 @@ import {nav} from '../nav';
   styleUrls: ['./sidenav-menu.component.css']
 })
 export class SidenavMenuComponent implements OnInit {
-  @Output() linkClicked = new EventEmitter();
+  @Output() linkClicked = new EventEmitter<void>();
   navLinks = nav;
   constructor() { }
 
