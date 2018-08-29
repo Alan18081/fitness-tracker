@@ -1,0 +1,17 @@
+.nav-link {
+    margin-left: 20px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: all .5s ease;
+    padding: 5px 0;
+}
+
+.nav-link:hover {
+    color: lightblue;
+}
+
+.nav-link.nav-link_active {
+    border: 2px solid #ffffff;
+    border-left: none;
+    border-right: none;
+}

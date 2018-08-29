@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="toggleMenu()" fxHide.gt-xs>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <a routerLink="/" class="logo">Fitness tracker</a>
+  <div fxFlex fxLayoutAlign="end" fxHide.xs>
+    <a
+      *ngFor="let link of navLinks"
+      class="nav-link"
+      routerLinkActive="nav-link_active"
+      [routerLink]="link.path"
+    >
+      {{ link.caption }}
+    </a>
+  </div>
+</mat-toolbar>

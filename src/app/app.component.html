@@ -1,14 +1,9 @@
 <mat-sidenav-container>
     <mat-sidenav #sidenav role="navigation">
-        <p>Hello</p>
+        <app-sidenav-menu (linkClicked)="sidenav.toggle()"></app-sidenav-menu>
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-toolbar color="primary">
-            <button mat-icon-button (click)="sidenav.toggle()">
-                <mat-icon>menu</mat-icon>
-            </button>
-            <div>Fitness tracker</div>
-        </mat-toolbar>
+        <app-header (sidenavToggled)="sidenav.toggle()"></app-header>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
