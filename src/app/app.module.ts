@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthModule } from './auth/auth.module';
 import { TrainingModule } from './training/training.module';
 import { NavModule } from './nav/nav.module';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { NavModule } from './nav/nav.module';
     TrainingModule,
     NavModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
