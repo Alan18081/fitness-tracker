@@ -6,6 +6,7 @@ import { TrainingComponent } from './training.component';
 import {CoreModule} from '../core/core.module';
 import {FormsModule} from '@angular/forms';
 import {StopTrainingComponent} from './current-training/stop-training.component';
+import { TrainingService } from './training.service';
 
 @NgModule({
   imports: [
@@ -21,6 +22,9 @@ import {StopTrainingComponent} from './current-training/stop-training.component'
   ],
   exports: [
     TrainingComponent
+  ],
+  providers: [
+    TrainingService
   ],
   entryComponents: [
     StopTrainingComponent

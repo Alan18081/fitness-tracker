@@ -7,14 +7,14 @@ export class AuthService {
   login(authData: IAuthData) {
     this.user = {
       email: authData.email,
-      userId: Math.random() * 10000
+      userId: String(Math.random() * 10000)
     }
   }
 
   signUp(authData: IAuthData) {
     this.user = {
       email: authData.email,
-      userId: Math.random() * 10000
+      userId: String(Math.random() * 10000)
     }
   }
 
