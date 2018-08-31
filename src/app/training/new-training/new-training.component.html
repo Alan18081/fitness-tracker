@@ -2,23 +2,25 @@
   <mat-card fxFlex.xs="100%" fxFlex="400px">
     <mat-card-title fxLayoutAlign="center">Time to get fit</mat-card-title>
     <mat-card-content>
-      <mat-form-field fxLayoutAlign="center">
-        <mat-select
-          placeholder="Select type of training"
-          name="training"
-          [(ngModel)]="selectedTraining"
-        >
-          <mat-option
-            *ngFor="let type of trainingTypes"
-            [value]="type.value"
+      <form (ngSubmit)="startTraining(f)" #f="ngForm">
+        <mat-form-field fxLayoutAlign="center">
+          <mat-select
+            placeholder="Select type of training"
+            name="training"
+            ngModel
           >
-            {{ type.caption }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+            <mat-option
+              *ngFor="let type of exercises"
+              [value]="type.id"
+            >
+              {{ type.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button (click)="startTraining()">Start</button>
+      <button mat-raised-button type="submit">Start</button>
     </mat-card-actions>
   </mat-card>
 </section>

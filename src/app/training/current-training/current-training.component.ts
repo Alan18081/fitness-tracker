@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {StopTrainingComponent} from './stop-training.component';
 import {Router} from '@angular/router';
+import { TrainingService } from '../training.service';
 
 @Component({
   selector: 'app-current-training',
@@ -13,7 +14,8 @@ export class CurrentTrainingComponent implements OnInit {
   interval;
   constructor(
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private trainingService: TrainingService
   ) { }
 
   ngOnInit() {

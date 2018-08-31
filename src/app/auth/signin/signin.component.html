@@ -1,3 +1,47 @@
-<p>
-  signin works!
-</p>
+<section fxLayout fxLayoutAlign="center center">
+  <mat-card [@show-card]>
+    <mat-card-title>Sign In</mat-card-title>
+    <form
+      [formGroup]="form"
+      (ngSubmit)="submitHandler()"
+      fxLayout="column"
+      fxLayoutAlign="center"
+      fxLayoutGap="10px"
+    >
+      <mat-form-field>
+        <input
+          matInput
+          type="email"
+          formControlName="email"
+          placeholder="Email"
+          required
+        >
+        <mat-error *ngIf="form.get('email').errors['required']">
+          Please, provide email
+        </mat-error>
+        <mat-error *ngIf="form.get('email').errors['email']">
+          Please, input valid email
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+          required
+        >
+        <mat-error *ngIf="form.get('email').errors['required']">
+          Please, provide password
+        </mat-error>
+        <mat-error *ngIf="form.get('email').errors['minLength']">
+          Your password should have at least 6 characters
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="accent" type="submit">Login</button>
+      <a routerLink="/signup" mat-button>
+        Create account
+      </a>
+    </form>
+  </mat-card>
+</section>

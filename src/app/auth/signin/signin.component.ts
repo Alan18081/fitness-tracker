@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'app-signin',
@@ -22,10 +24,23 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ]
 })
 export class SigninComponent implements OnInit {
-
-  constructor() { }
+  form = new FormGroup({
+    'email': new FormControl(null, [Validators.required, Validators.email]),
+    'password': new FormControl(null, [Validators.required, Validators.minLength(6)])
+  });
+  constructor(
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
+  }
+
+  submitHandler() {
+    const {email, password} = this.form.value;
+    this.authService.login({
+      email,
+      password
+    });
   }
 
 }
