@@ -9,8 +9,8 @@ import {MAT_DIALOG_DATA} from '@angular/material';
       <p>You already got {{ passedData.progress }}%</p>
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-raised-button color="primary">Yes</button>
-      <button mat-button>No</button>
+      <button mat-raised-button color="primary" mat-dialog-close="true">Yes</button>
+      <button mat-button mat-dialog-close>No</button>
     </mat-dialog-actions>
   `
 })
