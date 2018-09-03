@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {AngularFireModule} from 'angularfire2';
+import {AngularFirestoreModule} from 'angularfire2/firestore';
 
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
@@ -11,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
 import { TrainingModule } from './training/training.module';
 import { NavModule } from './nav/nav.module';
 import { AuthService } from './auth/auth.service';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { AuthService } from './auth/auth.service';
     MaterialModule,
     AuthModule,
     TrainingModule,
-    NavModule
+    NavModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
