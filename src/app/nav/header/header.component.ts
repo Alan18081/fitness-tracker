@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { nav } from '../nav';
+import { nav, authNav, INavItem } from '../nav';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   @Output() sidenavToggled = new EventEmitter<void>();
-  navLinks = nav;
+  navLinks: INavItem[];
   isAuth: boolean;
   authSubscription: Subscription;
 
@@ -18,8 +18,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isAuth = this.authService.isAuth();
+    this.navLinks = this.isAuth ? authNav : nav;
     this.authSubscription = this.authService.authChanged.subscribe((isAuth: boolean) => {
       this.isAuth = isAuth;
+      this.navLinks = this.isAuth ? authNav : nav;
     });
   }
 
@@ -27,8 +29,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.sidenavToggled.emit();
   }
 
+  logoutHandler() {
+    this.authService.logout();
+  }
+
   ngOnDestroy() {
-    this.authSubscription.unsubscribe();
+    if(this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 
 }

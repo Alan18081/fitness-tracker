@@ -3,15 +3,18 @@ import { CurrentTrainingComponent } from './current-training/current-training.co
 import { NewTrainingComponent } from './new-training/new-training.component';
 import { PastTrainingsComponent } from './past-trainings/past-trainings.component';
 import { TrainingComponent } from './training.component';
-import {CoreModule} from '../core/core.module';
 import {FormsModule} from '@angular/forms';
 import {StopTrainingComponent} from './current-training/stop-training.component';
-import { TrainingService } from './training.service';
+import { TrainingRoutesModule } from './training-routes.module';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../material.module';
 
 @NgModule({
   imports: [
     FormsModule,
-    CoreModule
+    CommonModule,
+    MaterialModule,
+    TrainingRoutesModule
   ],
   declarations: [
     CurrentTrainingComponent,
@@ -22,9 +25,6 @@ import { TrainingService } from './training.service';
   ],
   exports: [
     TrainingComponent
-  ],
-  providers: [
-    TrainingService
   ],
   entryComponents: [
     StopTrainingComponent

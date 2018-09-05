@@ -12,5 +12,6 @@
     >
       {{ link.caption }}
     </a>
+    <button *ngIf="isAuth" class="logout-btn nav-link" (click)="logoutHandler()">Logout</button>
   </div>
 </mat-toolbar>

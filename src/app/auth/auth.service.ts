@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {TrainingService} from '../training/training.service';
+import { UiService } from '../core/ui.service';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +15,8 @@ export class AuthService {
   constructor(
     private router: Router,
     private fireAuth: AngularFireAuth,
-    private trainingService: TrainingService
+    private trainingService: TrainingService,
+    private uiService: UiService,
   ) {}
 
   initAuthListener() {
@@ -31,40 +33,48 @@ export class AuthService {
   }
 
   login({email, password}: IAuthData) {
+    this.uiService.authLoadingChanged.next(true);
     this.fireAuth.auth
       .signInWithEmailAndPassword(email, password)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    this.user = {
-      email,
-      userId: String(Math.random() * 10000)
-    };
-    this.authSuccess();
-  }
-
-  signUp({email, password}: IAuthData) {
-    this.fireAuth.auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        this.uiService.authLoadingChanged.next(false);
         this.user = {
           email,
           userId: String(Math.random() * 10000)
         };
         this.authSuccess();
       })
-      .catch(err => {
-        console.log(err);
+      .catch(({message}) => {
+        this.uiService.authLoadingChanged.next(false);
+        this.uiService.showMessage(message, null, 3000);
+      });
+
+  }
+
+  signUp({email, password}: IAuthData) {
+    this.uiService.authLoadingChanged.next(true);
+    this.fireAuth.auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((res) => {
+        this.uiService.authLoadingChanged.next(false);
+        this.user = {
+          email,
+          userId: String(Math.random() * 10000)
+        };
+        this.authSuccess();
+      })
+      .catch(({message}) => {
+        this.uiService.authLoadingChanged.next(false);
+        this.uiService.showMessage(message, null, 3000);
       });
 
   }
 
   logout() {
-    this.fireAuth.auth.signOut();
+    this.fireAuth.auth.signOut().then(() => {
+      this.authChanged.next(false);
+    })
+      .catch(err => console.log(err));
   }
 
   getUser() {

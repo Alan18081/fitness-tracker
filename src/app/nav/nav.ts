@@ -7,11 +7,6 @@ export interface INavItem {
 
 export const nav: INavItem[] = [
   {
-    path: '/training',
-    caption: 'Training',
-    icon: 'timer'
-  },
-  {
     path: '/signin',
     caption: 'Login',
     icon: 'person'
@@ -20,5 +15,13 @@ export const nav: INavItem[] = [
     path: '/signup',
     caption: 'Sing Up',
     icon: 'person_add'
+  }
+];
+
+export const authNav: INavItem[] = [
+  {
+    path: '/training',
+    caption: 'Training',
+    icon: 'timer'
   }
 ];

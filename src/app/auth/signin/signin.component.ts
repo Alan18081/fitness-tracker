@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../auth.service';
+import { Subscription } from 'rxjs';
+import { UiService } from '../../core/ui.service';
 
 @Component({
   selector: 'app-signin',
@@ -23,16 +25,20 @@ import {AuthService} from '../auth.service';
     ])
   ]
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent implements OnInit, OnDestroy {
   form = new FormGroup({
     'email': new FormControl(null, [Validators.required, Validators.email]),
     'password': new FormControl(null, [Validators.required, Validators.minLength(6)])
   });
+  isLoading = false;
+  loadingSub: Subscription;
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private uiService: UiService
   ) { }
 
   ngOnInit() {
+    this.loadingSub = this.uiService.authLoadingChanged.subscribe(isLoading => this.isLoading = isLoading);
   }
 
   submitHandler() {
@@ -41,6 +47,10 @@ export class SigninComponent implements OnInit {
       email,
       password
     });
+  }
+
+  ngOnDestroy() {
+    this.loadingSub.unsubscribe();
   }
 
 }

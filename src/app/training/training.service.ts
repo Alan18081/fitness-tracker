@@ -12,8 +12,7 @@ export class TrainingService {
   finishedExercisesChanged = new Subject<IExercise[]>();
   private availableExercises: IExercise[] = [];
   private runningExercise: IExercise;
-  private finishedExercises: IExercise[];
-  private fbSubscriptions: Subscription[];
+  private fbSubscriptions: Subscription[] = [];
 
   constructor(
     private firestore: AngularFirestore
@@ -51,7 +50,7 @@ export class TrainingService {
   }
 
   startTraining(selectedId: number) {
-    this.firestore.doc(`/availableExercises/`, selectedId).update({
+    this.firestore.doc(`/availableExercises/${selectedId}`).update({
       lastVisited: new Date()
     });
     this.runningExercise = this.availableExercises.find(({id}) => id === selectedId);

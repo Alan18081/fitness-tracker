@@ -11,10 +11,13 @@ import { AppRoutingModule } from './app.routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { AuthModule } from './auth/auth.module';
-import { TrainingModule } from './training/training.module';
 import { NavModule } from './nav/nav.module';
 import { AuthService } from './auth/auth.service';
 import {environment} from '../environments/environment';
+import { AuthGuard } from './auth/auth-guard.service';
+import { TrainingService } from './training/training.service';
+import {StoreModule} from '@ngrx/store';
+import { reducers } from './@store/app.reducer';
 
 @NgModule({
   declarations: [
@@ -28,13 +31,13 @@ import {environment} from '../environments/environment';
     FlexLayoutModule,
     MaterialModule,
     AuthModule,
-    TrainingModule,
     NavModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    StoreModule.forRoot(reducers)
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard, TrainingService],
   bootstrap: [AppComponent]
 })
 export class AppModule implements OnInit {

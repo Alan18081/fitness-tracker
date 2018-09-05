@@ -12,17 +12,9 @@ const routes: Routes = [
     component: WelcomeComponent
   },
   {
-    path: 'signup',
-    component: SignupComponent
-  },
-  {
-    path: 'signin',
-    component: SigninComponent
-  },
-  {
     path: 'training',
-    component: TrainingComponent,
-    canActivate: [AuthGuard]
+    loadChildren: './training/training.module#TrainingModule',
+    canLoad: [AuthGuard]
   }
 ];
 

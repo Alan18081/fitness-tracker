@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {AuthService} from '../auth.service';
 import {NgForm} from '@angular/forms';
+import { UiService } from '../../core/ui.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -23,15 +25,19 @@ import {NgForm} from '@angular/forms';
     ])
   ]
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   maxDate: Date;
+  isLoading = false;
+  loadingSub: Subscription;
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private uiService: UiService
   ) { }
 
   ngOnInit() {
     this.maxDate = new Date();
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
+    this.loadingSub = this.uiService.authLoadingChanged.subscribe(isLoading => this.isLoading = isLoading);
   }
 
   submitHandler(form: NgForm) {
@@ -40,6 +46,10 @@ export class SignupComponent implements OnInit {
       email,
       password
     });
+  }
+
+  ngOnDestroy() {
+    this.loadingSub.unsubscribe();
   }
 
 }

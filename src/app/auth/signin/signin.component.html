@@ -14,12 +14,11 @@
           type="email"
           formControlName="email"
           placeholder="Email"
-          required
         >
-        <mat-error *ngIf="form.get('email').errors['required']">
+        <mat-error *ngIf="form.hasError('required', ['email'])">
           Please, provide email
         </mat-error>
-        <mat-error *ngIf="form.get('email').errors['email']">
+        <mat-error *ngIf="form.hasError('email', ['email'])">
           Please, input valid email
         </mat-error>
       </mat-form-field>
@@ -29,16 +28,16 @@
           type="password"
           formControlName="password"
           placeholder="Password"
-          required
         >
-        <mat-error *ngIf="form.get('email').errors['required']">
+        <mat-error *ngIf="form.hasError('required', ['password'])">
           Please, provide password
         </mat-error>
-        <mat-error *ngIf="form.get('email').errors['minLength']">
+        <mat-error *ngIf="form.hasError('minLength', ['password'])">
           Your password should have at least 6 characters
         </mat-error>
       </mat-form-field>
-      <button mat-raised-button color="accent" type="submit">Login</button>
+      <mat-spinner mode="indeterminate" *ngIf="isLoading"></mat-spinner>
+      <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid || isLoading">Login</button>
       <a routerLink="/signup" mat-button>
         Create account
       </a>

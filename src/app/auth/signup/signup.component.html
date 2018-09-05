@@ -57,7 +57,8 @@
       >
         Agree to terms and conditions
       </mat-checkbox>
-      <button mat-raised-button color="primary" type="submit" [disabled]="f.invalid">Create account</button>
+      <mat-spinner mode="indeterminate" *ngIf="isLoading"></mat-spinner>
+      <button mat-raised-button color="primary" type="submit" [disabled]="f.invalid || isLoading">Create account</button>
       <button mat-button>Login</button>
     </form>
   </mat-card>
