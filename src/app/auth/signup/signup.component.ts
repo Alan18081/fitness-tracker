@@ -1,9 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import {AuthService} from '../auth.service';
 import {NgForm} from '@angular/forms';
-import { UiService } from '../../core/ui.service';
-import { Subscription } from 'rxjs';
+import {Observable} from 'rxjs';
+import {IAppState} from '../../@store/app.reducer';
+import {Store} from '@ngrx/store';
+import {getLoading} from '../../@store/ui/ui.selectors';
+import * as authActions from '../../@store/auth/auth.actions';
 
 @Component({
   selector: 'app-signup',
@@ -25,31 +27,22 @@ import { Subscription } from 'rxjs';
     ])
   ]
 })
-export class SignupComponent implements OnInit, OnDestroy {
+export class SignupComponent implements OnInit {
   maxDate: Date;
-  isLoading = false;
-  loadingSub: Subscription;
+  isLoading: Observable<boolean>;
   constructor(
-    private authService: AuthService,
-    private uiService: UiService
+    private store: Store<IAppState>
   ) { }
 
   ngOnInit() {
     this.maxDate = new Date();
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
-    this.loadingSub = this.uiService.authLoadingChanged.subscribe(isLoading => this.isLoading = isLoading);
+    this.isLoading = this.store.select(getLoading);
   }
 
   submitHandler(form: NgForm) {
     const {email, password} = form.value;
-    this.authService.signUp({
-      email,
-      password
-    });
-  }
-
-  ngOnDestroy() {
-    this.loadingSub.unsubscribe();
+    this.store.dispatch(new authActions.SignUp({ email, password }));
   }
 
 }

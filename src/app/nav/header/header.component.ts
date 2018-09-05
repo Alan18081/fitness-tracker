@@ -1,7 +1,10 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { nav, authNav, INavItem } from '../nav';
-import { AuthService } from '../../auth/auth.service';
-import { Subscription } from 'rxjs';
+import {Subscription} from 'rxjs';
+import {IAppState} from '../../@store/app.reducer';
+import {Store} from '@ngrx/store';
+import {getAuthStatus} from '../../@store/auth/auth.selectors';
+import * as authActions from '../../@store/auth/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -14,15 +17,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAuth: boolean;
   authSubscription: Subscription;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private store: Store<IAppState>
+  ) {}
 
   ngOnInit() {
-    this.isAuth = this.authService.isAuth();
-    this.navLinks = this.isAuth ? authNav : nav;
-    this.authSubscription = this.authService.authChanged.subscribe((isAuth: boolean) => {
-      this.isAuth = isAuth;
-      this.navLinks = this.isAuth ? authNav : nav;
-    });
+    this.authSubscription = this.store.select(getAuthStatus)
+      .subscribe(isAuth => {
+        this.isAuth = isAuth;
+        this.navLinks = isAuth ? authNav : nav;
+      });
   }
 
   toggleMenu() {
@@ -30,11 +34,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logoutHandler() {
-    this.authService.logout();
+    this.store.dispatch(new authActions.Logout());
   }
 
   ngOnDestroy() {
-    if(this.authSubscription) {
+    if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }
   }

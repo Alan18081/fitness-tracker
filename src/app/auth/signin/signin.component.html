@@ -36,8 +36,8 @@
           Your password should have at least 6 characters
         </mat-error>
       </mat-form-field>
-      <mat-spinner mode="indeterminate" *ngIf="isLoading"></mat-spinner>
-      <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid || isLoading">Login</button>
+      <mat-spinner mode="indeterminate" *ngIf="isLoading | async"></mat-spinner>
+      <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid || (isLoading | async)">Login</button>
       <a routerLink="/signup" mat-button>
         Create account
       </a>

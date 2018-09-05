@@ -16,8 +16,11 @@ import { AuthService } from './auth/auth.service';
 import {environment} from '../environments/environment';
 import { AuthGuard } from './auth/auth-guard.service';
 import { TrainingService } from './training/training.service';
-import {StoreModule} from '@ngrx/store';
-import { reducers } from './@store/app.reducer';
+import {Store, StoreModule} from '@ngrx/store';
+import {IAppState, reducers} from './@store/app.reducer';
+import {EffectsModule} from '@ngrx/effects';
+import {AuthEffects} from './@store/auth/auth.effects';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -35,17 +38,12 @@ import { reducers } from './@store/app.reducer';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    StoreModule.forRoot(reducers)
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([AuthEffects]),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [AuthService, AuthGuard, TrainingService],
   bootstrap: [AppComponent]
 })
-export class AppModule implements OnInit {
-  constructor(
-    private authService: AuthService
-  ) {}
-
-  ngOnInit() {
-    this.authService.initAuthListener();
-  }
+export class AppModule {
 }

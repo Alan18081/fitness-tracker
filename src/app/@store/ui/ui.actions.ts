@@ -7,4 +7,5 @@ export class ToggleLoading implements Action {
   constructor(public payload: boolean) {}
 }
 
-export type UIActions = ToggleLoading;
+export type UIActions =
+  ToggleLoading;

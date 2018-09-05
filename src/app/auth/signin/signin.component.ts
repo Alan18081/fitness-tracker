@@ -1,9 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../auth.service';
-import { Subscription } from 'rxjs';
+import {Observable} from 'rxjs';
 import { UiService } from '../../core/ui.service';
+import {IAppState} from '../../@store/app.reducer';
+import {Store} from '@ngrx/store';
+import * as uiSelectors from '../../@store/ui/ui.selectors';
+import * as authActions from '../../@store/auth/auth.actions';
 
 @Component({
   selector: 'app-signin',
@@ -25,32 +29,22 @@ import { UiService } from '../../core/ui.service';
     ])
   ]
 })
-export class SigninComponent implements OnInit, OnDestroy {
+export class SigninComponent implements OnInit {
   form = new FormGroup({
     'email': new FormControl(null, [Validators.required, Validators.email]),
     'password': new FormControl(null, [Validators.required, Validators.minLength(6)])
   });
-  isLoading = false;
-  loadingSub: Subscription;
+  isLoading: Observable<boolean>;
   constructor(
-    private authService: AuthService,
-    private uiService: UiService
+    private store: Store<IAppState>
   ) { }
 
   ngOnInit() {
-    this.loadingSub = this.uiService.authLoadingChanged.subscribe(isLoading => this.isLoading = isLoading);
+    this.isLoading = this.store.select(uiSelectors.getLoading);
   }
 
   submitHandler() {
     const {email, password} = this.form.value;
-    this.authService.login({
-      email,
-      password
-    });
+    this.store.dispatch(new authActions.Login({ email, password }));
   }
-
-  ngOnDestroy() {
-    this.loadingSub.unsubscribe();
-  }
-
 }
