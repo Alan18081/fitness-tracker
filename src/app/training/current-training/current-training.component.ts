@@ -19,6 +19,10 @@ export class CurrentTrainingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+   this.startOrResumeTimer();
+  }
+
+  startOrResumeTimer() {
     this.interval = setInterval(() => {
       if (this.progress === 100) {
         clearInterval(this.interval);
@@ -35,9 +39,11 @@ export class CurrentTrainingComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe((data) => {
-      if (data) {
-        clearInterval(this.interval);
-        this.router.navigate(['/past-training']);
+      console.log(data);
+      if (Boolean(data)) {
+        this.router.navigate(['/past-trainings']);
+      } else {
+        this.startOrResumeTimer();
       }
     });
   }
